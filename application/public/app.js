@@ -54,7 +54,11 @@ function nav(){
   $('#notification-dot').hidden=!state.notifications.some(n=>!n.read);
 }
 function onboarding(){return `<section class="onboarding-page" aria-labelledby="onboarding-title"><div class="onboarding-content"><div class="onboarding-mark">${icon('leaf')}</div><p class="onboarding-eyebrow">Bienvenue dans votre espace</p><h1 id="onboarding-title">Vos démarches, plus simples à chaque étape.</h1><p class="onboarding-intro">Passoria vous aide à préparer, suivre et retrouver vos démarches au même endroit.</p><div class="onboarding-benefits"><article><span class="onboarding-icon green">${icon('file')}</span><div><h2>Préparer sereinement</h2><p>Des étapes claires pour savoir quoi renseigner et quelles pièces réunir.</p></div></article><article><span class="onboarding-icon blue">${icon('folder')}</span><div><h2>Tout retrouver au même endroit</h2><p>Vos dossiers et documents restent accessibles depuis votre espace.</p></div></article><article><span class="onboarding-icon rose">${icon('shield')}</span><div><h2>Garder le contrôle</h2><p>Vos informations de cette version restent enregistrées sur cet appareil.</p></div></article></div></div><div class="onboarding-actions"><button class="button primary" data-action="finish-onboarding">Commencer ${icon('arrow')}</button><small>Vous pourrez retrouver ces repères dans la rubrique Aide.</small></div></section>`;}
-function serviceCards(){const backgrounds={naissance:'#e7f5eb',deces:'#f0ecfb',documents:'#fff4d7',arch:'#fff0f1',sim:'#eaf4ff',ussd:'#e7f5eb'};return `<div class="services">${services.filter(s=>`${s.title} ${s.sub}`.toLowerCase().includes(search.toLowerCase())).map(s=>`<a class="service-card service-card-${s.id}" href="#${['naissance','deces'].includes(s.id)?`nouveau/${s.id}`:['arch','sim'].includes(s.id)?`info/${s.id}`:s.id}><span class="icon-tile ${s.tone} service-icon service-${s.id}" style="background:${backgrounds[s.id]};display:flex;align-items:center;justify-content:center" aria-hidden="true"><img class="service-image" src="/icons/services/${s.icon}.svg" alt=""></span><div><strong>${s.title}</strong><small>${s.sub}</small></div>${icon('arrow')}</a>`).join('') || '<p>Aucun service ne correspond à votre recherche.</p>'}</div>`;}
+function serviceCards(){
+ const backgrounds={naissance:'#e7f5eb',deces:'#f0ecfb',documents:'#fff4d7',arch:'#fff0f1',sim:'#eaf4ff',ussd:'#e7f5eb'};
+ const hrefFor=s=>['naissance','deces'].includes(s.id)?`nouveau/${s.id}`:['arch','sim'].includes(s.id)?`info/${s.id}`:s.id;
+ return `<div class="services">${services.filter(s=>`${s.title} ${s.sub}`.toLowerCase().includes(search.toLowerCase())).map(s=>`<a class="service-card service-card-${s.id}" href="#${hrefFor(s)}"><span class="icon-tile ${s.tone} service-icon service-${s.id}" style="background:${backgrounds[s.id]};display:flex;align-items:center;justify-content:center" aria-hidden="true"><img class="service-image" src="/icons/services/${s.icon}.svg" alt=""></span><div><strong>${s.title}</strong><small>${s.sub}</small></div>${icon('arrow')}</a>`).join('') || '<p>Aucun service ne correspond à votre recherche.</p>'}</div>`;
+}
 function home(){const active=state.cases.filter(c=>!['ANNULE','TERMINE_SIMULATION'].includes(c.status));const missing=active.filter(c=>['A_COMPLETER','COMPLEMENT_DEMANDE'].includes(c.status)).length;
  return `<section class="welcome"><div><h1>Bonjour, ${esc(state.profile.name.split(' ')[0])}</h1><p>Simplifions ensemble vos démarches administratives.</p><a class="button primary" href="#demarches">${icon('plus')}Commencer une démarche</a></div><div class="welcome-art" aria-hidden="true"><div class="sun"></div><div class="art-leaf">${icon('leaf')}</div><div class="paper-stack"><span></span><div>${icon('file')}<i></i><i></i><i></i><b>${icon('check')}Prêt à avancer</b></div></div><div class="art-caption">Un dossier.<br>Plus de simplicité.</div></div></section>
  <label class="search-field home-search">${icon('search')}<input id="service-search" type="search" aria-label="Rechercher une démarche, un service" placeholder="Rechercher une démarche, un service…" value="${esc(search)}" autocomplete="off"></label>
@@ -87,7 +91,7 @@ function render(){
  main.classList.remove('route-enter');void main.offsetWidth;main.classList.add('route-enter');
  route=location.hash.slice(1)||'accueil';
  const aliases={naissance:'nouveau/naissance',deces:'nouveau/deces','dossier-unique':'documents','arch-sante':'info/arch','sim-identite':'info/sim','acces-universel':'ussd'};
- if(aliases[route]){location.replace(`#${aliases[route]}`);return;}
+ if(aliases[route])route=aliases[route];
  if(auth.render(main,route))return;
  if(!state)return;
  nav();const [page,id]=route.split('/');
@@ -174,7 +178,7 @@ document.addEventListener('submit',async e=>{e.preventDefault();const form=e.tar
  if(form.id==='profile-form'){await mutate(()=>{state.profile.name=form.elements.name.value.trim()||'Aïssatou Adé';state.preferences.notifications=form.elements.notifications.checked;});notify('Profil enregistré.');render();}
  if(form.id==='ussd-form'){const v=form.elements.choice.value.trim();const routes={menu:{1:'services',2:'pieces',3:'suivi',4:'aide',0:'quit'},services:{1:'naissance',2:'deces',9:'menu'},pieces:{1:'naissance',2:'deces',9:'menu'}};const next=routes[ussdView]?.[v]||(v==='9'?'menu':null);if(next){ussdView=next;render();}else notify('Choix non reconnu. Saisissez un numéro du menu.',true);}
 }catch(err){if(form.id==='upload-form')$('#upload-error').textContent=err.message;else notify(err.message,true);}finally{if(submit)submit.disabled=false;}});
-window.addEventListener('hashchange',()=>{currentStep=0;errors=[];render();main.focus();window.scrollTo({top:0});});
+window.addEventListener('hashchange',()=>{currentStep=0;errors=[];render();main.focus();window.scrollTo({top:0,left:0});});
 function connection(){const online=navigator.onLine;$('#connection').textContent=online?'En ligne':'Hors connexion · local';$('#connection').classList.toggle('offline',!online);}
 window.addEventListener('online',connection);window.addEventListener('offline',connection);
 async function activateIdentity(identity){
