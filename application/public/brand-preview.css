@@ -1,0 +1,2 @@
+.brand-preview{background:#f7faf8}.brand-preview main{max-width:620px;text-align:center;padding:40px 24px}.logo-preview{width:100px;height:100px}.brand-preview h1{margin:10px 0}.motion-preview{display:block;width:min(100%,360px);margin:20px auto;border-radius:22px;border:1px solid #e1eae2}.brand-preview .button{margin:5px}.brand-preview main>p:last-child{font-size:12px;margin-top:22px}
+@media(prefers-reduced-motion:reduce){.motion-preview{display:none}}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#08684c">
+  <meta name="description" content="Passoria : préparez et suivez vos démarches. Prototype de démonstration avec données fictives.">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/auth-brand.css">
+  <title>Passoria · Toutes vos démarches, un seul espace</title>
+</head>
+<body>
+  <div id="splash-screen" class="splash-screen" role="status" aria-label="Ouverture de Passoria">
+    <div class="splash-symbol"><svg class="passoria-mark" viewBox="0 0 320 320" fill="none" aria-hidden="true"><path class="mark-upper" d="M99 28H151C227 28 280 73 280 133C280 191 238 222 177 222H145C185 203 210 181 210 152C210 126 191 109 163 109H127C107 109 99 98 99 78Z" fill="#08684C"/><path class="mark-lower" d="M48 266V184C48 139 82 113 125 113H145C156 113 163 119 163 130V153C163 171 152 179 135 185C116 192 110 205 110 223V244C110 266 96 280 70 287L63 289C54 291 48 282 48 266Z" fill="#73B98B"/></svg></div>
+    <strong>Passoria</strong><span>Toutes vos démarches, un seul espace.</span>
+  </div>
+  <a class="skip" href="#main">Aller au contenu</a>
+  <div class="demo-bar">Prototype de démonstration · Données fictives uniquement · Aucun acte officiel</div>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Navigation principale">
+      <a class="brand" href="#accueil"><img src="/icon.svg" alt="" width="44" height="48"><span>Passoria<small>Toutes vos démarches, un seul espace.</small></span></a>
+      <nav id="desktop-nav"></nav>
+      <div class="sidebar-bottom"><span class="safe-dot"></span> Votre espace de démonstration<p>Préparer. Comprendre. Avancer.</p></div>
+    </aside>
+    <div class="workspace">
+      <header class="topbar">
+        <a class="brand mobile-brand" href="#accueil"><img src="/icon.svg" alt="" width="32" height="36"><span>Passoria<small>Toutes vos démarches, un seul espace.</small></span></a>
+        <div class="desktop-context">Mon espace citoyen <span> / Bénin</span></div>
+        <div class="header-actions"><span id="connection" class="connection">En ligne</span><button class="icon-button" data-action="notifications" aria-label="Notifications"><span data-icon="bell"></span><span id="notification-dot" class="notification-dot" hidden></span></button><a class="avatar" href="#profil" aria-label="Profil de démonstration">AA</a></div>
+      </header>
+      <main id="main" tabindex="-1"><div class="skeleton">Chargement de votre espace…</div></main>
+      <footer class="page-footer">Passoria · Un projet de simplification au Bénin <a href="#aide">À propos et limites</a></footer>
+    </div>
+  </div>
+  <nav id="mobile-nav" class="bottom-nav" aria-label="Navigation mobile"></nav>
+  <div id="toast" role="status" aria-live="polite" hidden></div>
+  <dialog id="dialog" aria-labelledby="dialog-title"></dialog>
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "supabaseUrl": "",
+  "publishableKey": "",
+  "googleEnabled": false,
+  "phoneEnabled": false,
+  "allowDemo": true
+}
