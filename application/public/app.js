@@ -86,6 +86,8 @@ function render(){
  if(!initialized)return;
  main.classList.remove('route-enter');void main.offsetWidth;main.classList.add('route-enter');
  route=location.hash.slice(1)||'accueil';
+ const aliases={naissance:'nouveau/naissance',deces:'nouveau/deces','dossier-unique':'documents','arch-sante':'info/arch','sim-identite':'info/sim','acces-universel':'ussd'};
+ if(aliases[route]){location.replace(`#${aliases[route]}`);return;}
  if(auth.render(main,route))return;
  if(!state)return;
  nav();const [page,id]=route.split('/');
