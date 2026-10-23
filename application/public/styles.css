@@ -51,3 +51,4 @@ input[type=date]{appearance:none;min-height:48px}
 .service-card>.icon-tile{display:flex!important;visibility:visible;opacity:1}.service-card>.icon-tile .icon{display:block!important;visibility:visible;stroke:currentColor}
 .search-field{overflow:hidden}.search-field input:focus,.search-field input:focus-visible{outline:0!important;box-shadow:none!important;border-color:transparent!important}.search-field:focus-within{border-color:#278467;box-shadow:0 0 0 2px #d9eee4,0 0 0 4px #278467}.search-field:focus-within input{outline:0!important}.workspace,main{overflow-x:hidden}
 .service-icon{position:relative}.service-icon>.icon{display:none!important}.service-symbol{display:block!important;font-family:Arial,sans-serif;font-size:25px;font-weight:700;line-height:1;color:currentColor}
+.service-icon>.icon{display:block!important;width:27px;height:27px;stroke:currentColor;fill:none}.service-symbol{display:none!important}
