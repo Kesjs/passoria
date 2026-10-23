@@ -12,6 +12,7 @@ export function createAuthUI({onIdentity,notify,renderApp}){
  function flag(code){return String.fromCodePoint(...code.toUpperCase().split('').map(c=>127397+c.charCodeAt(0)));}
  const googleLogo='<svg class="google-logo" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.55-.2-2.27H12v4.3h6.45a5.51 5.51 0 0 1-2.39 3.61v3h3.87c2.27-2.09 3.56-5.17 3.56-8.64Z"/><path fill="#34A853" d="M12 24c3.24 0 5.96-1.07 7.95-2.9l-3.87-3c-1.07.72-2.43 1.15-4.08 1.15-3.13 0-5.78-2.11-6.73-4.95H1.27v3.09A12 12 0 0 0 12 24Z"/><path fill="#FBBC05" d="M5.27 14.3A7.2 7.2 0 0 1 4.9 12c0-.8.14-1.58.37-2.3V6.61H1.27A12 12 0 0 0 0 12c0 1.94.46 3.77 1.27 5.39l4-3.09Z"/><path fill="#EA4335" d="M12 4.75c1.77 0 3.36.61 4.61 1.81l3.45-3.45C17.95 1.12 15.24 0 12 0A12 12 0 0 0 1.27 6.61l4 3.09C6.22 6.86 8.87 4.75 12 4.75Z"/></svg>';
  function ready(kind){return config?.ready&&config[`${kind}Enabled`];}
+ function onboarding(){return `<section class="auth-onboarding"><div class="onboarding-mark">${brandMark()}</div><p class="onboarding-eyebrow">Bienvenue dans votre espace</p><h1>Vos démarches, plus simples à chaque étape.</h1><p class="onboarding-intro">Passoria vous aide à préparer, suivre et retrouver vos démarches au même endroit.</p><div class="onboarding-benefits"><p><strong>Préparer sereinement</strong><span>Des étapes claires pour savoir quoi renseigner.</span></p><p><strong>Tout retrouver au même endroit</strong><span>Vos dossiers et documents restent accessibles.</span></p><p><strong>Garder le contrôle</strong><span>Vos informations restent enregistrées sur cet appareil.</span></p></div><button class="button primary onboarding-start" data-auth-action="onboarding-start">Commencer</button></section>`;}
  function draw(){
   if(!main)return;document.body.classList.add('auth-mode');
   const signup=mode==='inscription',otp=mode==='code';
@@ -30,6 +31,7 @@ export function createAuthUI({onIdentity,notify,renderApp}){
   const button=e.target.closest('[data-auth-action]');if(!button)return;e.preventDefault();e.stopImmediatePropagation();if(busy)return;
   const action=button.dataset.authAction;
   try{
+   if(action==='onboarding-start'){localStorage.setItem('passoria-onboarding-seen','1');location.hash='#connexion';draw();return;}
    if(action==='demo'){await enter(demoIdentity);return;}
    if(action==='logout'){await signOut();return;}
    if(action==='change-phone'){mode='connexion';error='';location.hash='#connexion';draw();return;}
@@ -56,7 +58,7 @@ export function createAuthUI({onIdentity,notify,renderApp}){
    const url=new URL(location.href);if(url.searchParams.has('code')){url.searchParams.delete('code');history.replaceState(null,'',url.pathname+url.search+url.hash);}
    return identity;
   },
-  render(target,route){main=target;if(identity){document.body.classList.remove('auth-mode');return false;}if(!busy&&route!=='code')mode=route==='inscription'?'inscription':'connexion';if(route==='code'&&!controller.pending)mode='connexion';draw();return true;},
+  render(target,route){main=target;if(identity){document.body.classList.remove('auth-mode');return false;}if(route==='onboarding'&&!localStorage.getItem('passoria-onboarding-seen')){document.body.classList.add('auth-mode');main.innerHTML=onboarding();return true;}if(!busy&&route!=='code')mode=route==='inscription'?'inscription':'connexion';if(route==='code'&&!controller.pending)mode='connexion';draw();return true;},
   accountPanel(){return `<section class="panel form-panel account-panel"><div class="account-brand">${brandMark()}<div><h2>${identity?.isDemo?'Mode démonstration':'Mon compte'}</h2><p>${escape(identity?.contact||'')}</p></div></div><button class="button secondary" data-auth-action="logout">${identity?.isDemo?'Quitter la démonstration':'Se déconnecter'}</button><button class="text-button" data-action="replay-intro">Revoir l’animation du logo</button></section>`;}
  };
 }
