@@ -14,12 +14,12 @@ function icon(name, cls='') {
   }).outerHTML;
 }
 const services = [
- {id:'naissance',title:'Naissance',sub:'Préparer une déclaration',icon:'baby',tone:'rose'},
- {id:'deces',title:'Après un décès',sub:'Être accompagné pas à pas',icon:'candle',tone:'purple'},
- {id:'documents',title:'Dossier unique',sub:'Vos documents réunis',icon:'folder',tone:'green'},
- {id:'arch',title:'ARCH Santé',sub:'Comprendre et s’orienter',icon:'heart',tone:'rose'},
+ {id:'naissance',title:'Naissance',sub:'Préparer une déclaration',icon:'file',tone:'green'},
+ {id:'deces',title:'Après un décès',sub:'Être accompagné pas à pas',icon:'heart',tone:'purple'},
+ {id:'documents',title:'Dossier unique',sub:'Vos documents réunis',icon:'folder',tone:'yellow'},
+ {id:'arch',title:'ARCH Santé',sub:'Comprendre et s’orienter',icon:'plus',tone:'rose'},
  {id:'sim',title:'SIM Identité',sub:'Préparer son identification',icon:'id',tone:'blue'},
- {id:'ussd',title:'Accès universel',sub:'Essayer le menu USSD',icon:'people',tone:'yellow'}
+ {id:'ussd',title:'Accès universel',sub:'Essayer le menu USSD',icon:'help',tone:'green'}
 ];
 let state, route='', currentStep=0, errors=[], docFilter='all', caseFilter='all', search='', notifyTimer, persistence=Promise.resolve(), storageReady=false;
 const main = $('#main');
