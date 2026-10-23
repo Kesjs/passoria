@@ -31,7 +31,7 @@ export function createAuthUI({onIdentity,notify,renderApp}){
   const button=e.target.closest('[data-auth-action]');if(!button)return;e.preventDefault();e.stopImmediatePropagation();if(busy)return;
   const action=button.dataset.authAction;
   try{
-   if(action==='onboarding-start'){localStorage.setItem('passoria-onboarding-seen','1');location.hash='#connexion';draw();return;}
+   if(action==='onboarding-start'){localStorage.setItem('passoria-onboarding-seen','1');await enter(demoIdentity);return;}
    if(action==='demo'){await enter(demoIdentity);return;}
    if(action==='logout'){await signOut();return;}
    if(action==='change-phone'){mode='connexion';error='';location.hash='#connexion';draw();return;}
